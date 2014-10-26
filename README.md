@@ -11,3 +11,5 @@ Then install the libraries :
 
 Then launch gulp to build :
 `gulp`
+
+You are good to go !
