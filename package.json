@@ -1,0 +1,17 @@
+{
+  "name": "workshop-threejs-starter",
+  "version": "0.0.1",
+  "description": "THREE.js Starter Kit for Creative Coding Workshop for CRMA 2015",
+  "main": "src/js/main.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "^3.4.0",
+    "gulp-concat": "~2.4.1",
+    "gulp-sourcemaps": "^1.2.4",
+    "gulp-uglify": "~1.0.1",
+    "gulp-watch": "^1.1.0"
+  },
+  "author": "Guillaume Gouessan",
+  "license": "BSD-2-Clause"
+}
