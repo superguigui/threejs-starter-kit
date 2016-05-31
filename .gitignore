@@ -1,5 +1,6 @@
+#system
+*.log
 .DS_Store
 
-build
+#node
 node_modules
-assets/lib

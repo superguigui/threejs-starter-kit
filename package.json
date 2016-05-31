@@ -1,16 +1,29 @@
 {
-  "name": "workshop-threejs-starter",
+  "name": "threejs-starter-kit",
   "version": "0.0.1",
-  "description": "THREE.js Starter Kit for Creative Coding Workshop for CRMA 2015",
-  "main": "src/js/main.js",
-  "dependencies": {
+  "description": "My workflow for three-js demos",
+  "main": "src/index.js",
+  "repository": "superguigui/threejs-starter-kit",
+  "scripts": {
+    "start": "budo src/index.js --title 'THREE.js Starter Kit' --open --live -- -t babelify -t glslify"
   },
   "devDependencies": {
-    "gulp": "^3.4.0",
-    "gulp-concat": "~2.4.1",
-    "gulp-sourcemaps": "^1.2.4",
-    "gulp-uglify": "~1.0.1",
-    "gulp-watch": "^1.1.0"
+    "babel": "^6.5.2",
+    "babel-eslint": "^6.0.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babelify": "^7.3.0",
+    "budo": "^8.3.0"
+  },
+  "dependencies": {
+    "@superguigui/wagner": "^0.1.23",
+    "brindille-resize": "^0.1.3",
+    "clamp": "^1.0.1",
+    "dat-gui": "^0.5.0",
+    "glslify": "^5.0.2",
+    "mouse-event-offset": "^3.0.2",
+    "mouse-wheel": "^1.1.0",
+    "raf-loop": "^1.1.3",
+    "three": "^0.77.1"
   },
   "author": "Guillaume Gouessan",
   "license": "BSD-2-Clause"

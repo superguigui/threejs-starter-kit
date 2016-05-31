@@ -1,17 +1,16 @@
 threejs-starter-kit
 ===================
 
-Three.js starter kit made for Three.js Workshop.  
-It uses Three.js, Greensock and Jquery as depencies.  
-I also added a few Three.js extra classes from the examples for post-processing.  
+My current worlflow for quick THREE.js prototypes.
 
-After cloning install all node dependencies :  
-`npm i`
+After cloning install all node dependencies
+```bash
+npm i
+```
 
-Then install the libraries :  
-`bower install`
-
-Then launch gulp to build :  
-`gulp`
+Then launch the main task to open budo livereload server  
+```bash
+npm start
+```
 
 You are good to go !
