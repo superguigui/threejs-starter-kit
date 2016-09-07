@@ -1,9 +1,13 @@
-import THREE from 'three';
+import {
+  Vector3,
+  Vector2,
+  Quaternion
+} from 'three';
 import eventOffset from 'mouse-event-offset';
 import mouseWheel from 'mouse-wheel';
 import clamp from 'clamp';
 
-const Y_UP = new THREE.Vector3(0, 1, 0);
+const Y_UP = new Vector3(0, 1, 0);
 const EPSILON = 1e-10;
 
 export default class OrbitControls {
@@ -17,13 +21,13 @@ export default class OrbitControls {
 
     this.object = object;
 
-    this.inputDelta = new THREE.Vector3();
-    this.offset = new THREE.Vector3();
-    this.upQuat = new THREE.Quaternion();
-    this.upQuatInverse = new THREE.Quaternion();
+    this.inputDelta = new Vector3();
+    this.offset = new Vector3();
+    this.upQuat = new Quaternion();
+    this.upQuatInverse = new Quaternion();
     this.enabled = true;
 
-    this.target = opt.target || new THREE.Vector3();
+    this.target = opt.target || new Vector3();
     this.distance = opt.distance || 1;
     this.damping = opt.damping || 0.25;
     this.rotateSpeed = opt.rotateSpeed || 0.28;
@@ -42,8 +46,8 @@ export default class OrbitControls {
     this.parent = opt.parent || window;
     this.element = opt.element;
     this.pinchHandler;
-    this.mouseStart = new THREE.Vector2();
-    this.clientSize = new THREE.Vector2();
+    this.mouseStart = new Vector2();
+    this.clientSize = new Vector2();
     this.tmp = [0, 0];
     this.dragging = false;
 
@@ -56,8 +60,8 @@ export default class OrbitControls {
   }
 
   reset() {
-    this.inputDelta = new THREE.Vector3();
-    this.mouseStart = new THREE.Vector2();
+    this.inputDelta = new Vector3();
+    this.mouseStart = new Vector2();
     this.theta = 0;
     this.phi = Math.PI * 0.5;
   }
@@ -177,8 +181,6 @@ export default class OrbitControls {
     this.offset.x = radius * Math.sin(this.phi) * Math.sin(this.theta);
     this.offset.y = radius * Math.cos(this.phi);
     this.offset.z = radius * Math.sin(this.phi) * Math.cos(this.theta);
-
-    console.log('_computeOffset', this.offset.x, this.offset.y, this.offset.z);
   }
 
   _applyTransformation() {

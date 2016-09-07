@@ -1,4 +1,8 @@
-import THREE from 'three';
+import {
+  JSONLoader,
+  TextureLoader,
+
+} from 'three';
 
 /**
 
@@ -19,8 +23,8 @@ import THREE from 'three';
 
 class Preloader {
   constructor() {
-    this.jsonLoader = new THREE.JSONLoader();
-    this.textureLoader = new THREE.TextureLoader();
+    this.jsonLoader = new JSONLoader();
+    this.textureLoader = new TextureLoader();
     this.isLoaded = false;
   }
 

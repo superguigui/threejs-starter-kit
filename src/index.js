@@ -1,4 +1,9 @@
-import THREE from 'three';
+import {
+  WebGLRenderer,
+  Scene,
+  PerspectiveCamera,
+  PointLight
+} from 'three';
 import loop from 'raf-loop';
 import WAGNER from '@superguigui/wagner';
 import BloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass';
@@ -15,7 +20,7 @@ const SETTINGS = {
 
 /* Init renderer and canvas */
 const container = document.body;
-const renderer = new THREE.WebGLRenderer();
+const renderer = new WebGLRenderer();
 renderer.setClearColor(0x323232);
 container.style.overflow = 'hidden';
 container.style.margin = 0;
@@ -27,13 +32,13 @@ const bloomPass = new BloomPass();
 const fxaaPass = new FXAAPass();
 
 /* Main scene and camera */
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, resize.width / resize.height, 0.1, 1000);
+const scene = new Scene();
+const camera = new PerspectiveCamera(50, resize.width / resize.height, 0.1, 1000);
 const controls = new OrbitControls(camera, {element: renderer.domElement, distance: 10, phi: Math.PI * 0.5});
 
 /* Lights */
-const frontLight = new THREE.PointLight(0xFFFFFF, 1);
-const backLight = new THREE.PointLight(0xFFFFFF, 0.5);
+const frontLight = new PointLight(0xFFFFFF, 1);
+const backLight = new PointLight(0xFFFFFF, 0.5);
 scene.add(frontLight);
 scene.add(backLight);
 frontLight.position.x = 20;

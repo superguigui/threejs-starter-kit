@@ -1,6 +1,6 @@
 {
   "name": "threejs-starter-kit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "My workflow for three-js demos",
   "main": "src/index.js",
   "repository": "superguigui/threejs-starter-kit",
@@ -23,7 +23,7 @@
     "mouse-event-offset": "^3.0.2",
     "mouse-wheel": "^1.1.0",
     "raf-loop": "^1.1.3",
-    "three": "^0.77.1"
+    "three": "^0.80.1"
   },
   "author": "Guillaume Gouessan",
   "license": "BSD-2-Clause"
