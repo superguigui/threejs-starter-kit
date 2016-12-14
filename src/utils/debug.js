@@ -1,3 +1,3 @@
-import dat from 'dat-gui';
+import Gui from 'guigui';
 
-export const gui = new dat.GUI();
+export const gui = new Gui();
