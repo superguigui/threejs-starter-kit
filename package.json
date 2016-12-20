@@ -1,11 +1,12 @@
 {
   "name": "threejs-starter-kit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "My workflow for three-js demos",
   "main": "src/index.js",
   "repository": "superguigui/threejs-starter-kit",
   "scripts": {
-    "start": "budo src/index.js --open --live -- -t babelify -t glslify"
+    "start": "budo src/index.js --open --live -- -t babelify -t glslify",
+    "build": "browserify -v -d src/index.js -t babelify -t glslify | uglifyjs -nm > index.js"
   },
   "devDependencies": {
     "babel": "^6.5.2",
