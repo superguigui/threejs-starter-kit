@@ -9,18 +9,18 @@ import WAGNER from '@superguigui/wagner';
 import BloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass';
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass';
 import resize from 'brindille-resize';
-import Ball from './objects/Ball';
+import Torus from './objects/Torus';
 import OrbitControls from './controls/OrbitControls';
 import {gui} from './utils/debug';
 
 /* Custom settings */
 const SETTINGS = {
-  useComposer: true
+  useComposer: false
 };
 
 /* Init renderer and canvas */
 const container = document.body;
-const renderer = new WebGLRenderer();
+const renderer = new WebGLRenderer({antialias: true});
 renderer.setClearColor(0x323232);
 container.style.overflow = 'hidden';
 container.style.margin = 0;
@@ -45,8 +45,8 @@ frontLight.position.x = 20;
 backLight.position.x = -20;
 
 /* Actual content of the scene */
-const ball = new Ball();
-scene.add(ball);
+const torus = new Torus();
+scene.add(torus);
 
 /* Various event listeners */
 resize.addListener(onResize);

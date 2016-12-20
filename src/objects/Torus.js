@@ -5,7 +5,7 @@ import {
   Mesh
 } from 'three';
 
-export default class Ball extends Object3D {
+export default class Torus extends Object3D {
   constructor() {
     super();
 

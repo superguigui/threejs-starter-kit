@@ -5,14 +5,16 @@
   "main": "src/index.js",
   "repository": "superguigui/threejs-starter-kit",
   "scripts": {
-    "start": "budo src/index.js --title 'THREE.js Starter Kit' --open --live -- -t babelify -t glslify"
+    "start": "budo src/index.js --open --live -- -t babelify -t glslify"
   },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-eslint": "^6.0.4",
     "babel-preset-es2015": "^6.9.0",
     "babelify": "^7.3.0",
-    "budo": "^8.3.0"
+    "browserify": "^13.1.1",
+    "budo": "^8.3.0",
+    "uglify-js": "^2.7.5"
   },
   "dependencies": {
     "@superguigui/wagner": "*",
