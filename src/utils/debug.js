@@ -1,3 +1,3 @@
-import Gui from 'guigui';
+import Gui from 'guigui'
 
-export const gui = new Gui();
+export const gui = Gui.addPanel('Settings')
