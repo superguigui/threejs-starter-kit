@@ -3,6 +3,8 @@ threejs-starter-kit
 
 My current worlflow for quick THREE.js prototypes.
 
+![screenshot](/screenshot.png)
+
 ## Usage
 After cloning install all node dependencies
 ```bash
