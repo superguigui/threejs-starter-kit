@@ -32,5 +32,12 @@ Then put the `/index.html` and `/index.js` (+ any assets that you might be using
 - Simple setup with my ideal file structure
 - Postprocessing with [my fork](https://github.com/superguigui/Wagner) of [spite's WAGNER](https://github.com/spite/Wagner)
 
-## File Structure
-I like to create "Objects" classes that extend THREE.Object3D so that they can be added to the main scene and have positions and rotations etc... You can also extend THREE.Mesh but it can be a bit restrictive since you will need to prepare all geometries and material in the constructor before the call to `super()` without being able to use `this`.
+## File Structure and coding style
+I like to create "Objects" classes in `src/objects` that contain elements from my scene. They usually extend `THREE.Object3D` so that they can be added to a parent, have positions and rotations etc... I also sometime extend `THREE.Mesh` directly but it can be a bit restrictive since in that case you need to prepare all geometries and material in the constructor before the call to `super()` without being able to use `this`.
+
+Also i like to avoid using the `THREE` global keyboard and instead I import only the Objects that I need.
+```js
+import { Object3D, Mesh, MeshBasicMaterial } from THREE
+```
+
+I try to respect the [Standard](https://standardjs.com) coding style.

@@ -29,7 +29,7 @@ const fxaaPass = new FXAAPass()
 /* Main scene and camera */
 const scene = new Scene()
 const camera = new PerspectiveCamera(50, resize.width / resize.height, 0.1, 1000)
-const controls = new OrbitControls(camera, {element: renderer.domElement, distance: 10, phi: Math.PI * 0.5})
+const controls = new OrbitControls(camera, {element: renderer.domElement, parent: renderer.domElement, distance: 10, phi: Math.PI * 0.5})
 
 /* Lights */
 const frontLight = new PointLight(0xFFFFFF, 1)

@@ -1,4 +1,4 @@
-import { Vector3, Vector2, Quaternion} from 'three'
+import { Vector3, Vector2, Quaternion } from 'three'
 import eventOffset from 'mouse-event-offset'
 import mouseWheel from 'mouse-wheel'
 import clamp from 'clamp'
@@ -14,8 +14,11 @@ export default class OrbitControls {
     this.handleZoom = this.handleZoom.bind(this)
     this.preventDefault = this.preventDefault.bind(this)
     this.update = this.update.bind(this)
+    this.rotateTo = this.rotateTo.bind(this)
 
     this.object = object
+    this.name = opt.name || ''
+    this.isTouch = ('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch
 
     this.inputDelta = new Vector3()
     this.offset = new Vector3()
@@ -60,13 +63,21 @@ export default class OrbitControls {
     this.mouseStart = new Vector2()
     this.theta = 0
     this.phi = Math.PI * 0.5
+    this._phi = Math.PI * 0.5
+    this.inputDelta.x = this.phi
   }
 
   addEvents () {
     if (this.rotate) {
-      this.parent.addEventListener('mousedown', this.onInputDown)
-      this.parent.addEventListener('mousemove', this.onInputMove)
-      this.parent.addEventListener('mouseup', this.onInputUp)
+      if (this.isTouch) {
+        this.parent.addEventListener('touchstart', this.onInputDown)
+        this.parent.addEventListener('touchmove', this.onInputMove)
+        this.parent.addEventListener('touchend', this.onInputUp)
+      } else {
+        this.parent.addEventListener('mousedown', this.onInputDown)
+        this.parent.addEventListener('mousemove', this.onInputMove)
+        this.parent.addEventListener('mouseup', this.onInputUp)
+      }
     }
 
     if (this.zoom) {
@@ -78,6 +89,9 @@ export default class OrbitControls {
     this.parent.removeEventListener('mousedown', this.onInputDown)
     this.parent.removeEventListener('mousemove', this.onInputMove)
     this.parent.removeEventListener('mouseup', this.onInputUp)
+    this.parent.removeEventListener('touchstart', this.onInputDown)
+    this.parent.removeEventListener('touchmove', this.onInputMove)
+    this.parent.removeEventListener('touchend', this.onInputUp)
   }
 
   preventDefault (e) {
@@ -86,7 +100,7 @@ export default class OrbitControls {
 
   onInputDown (e) {
     if (!this.enabled) return
-    const start = eventOffset(e, this.element)
+    const start = eventOffset(this.isTouch ? e.changedTouches[0] : e, this.element)
     this.mouseStart.set(start[0], start[1])
     if (this.insideBounds(this.mouseStart)) {
       this.dragging = true
@@ -100,7 +114,8 @@ export default class OrbitControls {
 
   onInputMove (e) {
     if (!this.enabled) return
-    const end = eventOffset(e, this.element)
+    if (this.isTouch) this.preventDefault(e)
+    const end = eventOffset(this.isTouch ? e.changedTouches[0] : e, this.element)
     if (!this.dragging) return
     const rect = this.getClientSize()
     const dx = (end[0] - this.mouseStart.x) / rect.x
@@ -112,7 +127,7 @@ export default class OrbitControls {
   insideBounds (pos) {
     if (this.element === window || this.element === document || this.element === document.body) {
       return true
-    }else {
+    } else {
       const rect = this.element.getBoundingClientRect()
       return pos.x >= 0 && pos.y >= 0 && pos.x < rect.width && pos.y < rect.height
     }

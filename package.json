@@ -6,15 +6,14 @@
   "repository": "superguigui/threejs-starter-kit",
   "scripts": {
     "start": "budo src/index.js --open --live -- -t babelify -t glslify",
-    "build": "browserify -v -d src/index.js -t babelify -t glslify | uglifyjs -nm > index.js"
+    "build": "browserify src/index.js -t babelify -t glslify -p tinyify > index.js"
   },
   "devDependencies": {
-    "babel-eslint": "^6.0.4",
     "babel-preset-env": "^1.6.1",
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
     "budo": "^8.3.0",
-    "uglify-js": "^2.7.5"
+    "tinyify": "^2.3.0"
   },
   "dependencies": {
     "@superguigui/wagner": "*",
