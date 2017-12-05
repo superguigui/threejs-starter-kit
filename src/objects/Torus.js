@@ -1,4 +1,4 @@
-import { Object3D, TorusKnotBufferGeometry, MeshStandardMaterial, Mesh} from 'three'
+import { Object3D, TorusKnotBufferGeometry, MeshStandardMaterial, Mesh } from 'three'
 
 export default class Torus extends Object3D {
   constructor () {

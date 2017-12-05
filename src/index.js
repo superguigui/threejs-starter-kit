@@ -1,4 +1,4 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, PointLight} from 'three'
+import { WebGLRenderer, Scene, PerspectiveCamera, PointLight } from 'three'
 import loop from 'raf-loop'
 import WAGNER from '@superguigui/wagner'
 import BloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass'

@@ -1,4 +1,4 @@
-import { JSONLoader, TextureLoader} from 'three'
+import { JSONLoader, TextureLoader } from 'three'
 
 /**
 
