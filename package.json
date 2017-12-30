@@ -20,7 +20,7 @@
     "brindille-resize": "^0.1.3",
     "clamp": "^1.0.1",
     "glslify": "^5.0.2",
-    "guigui": "github:superguigui/guigui#dev",
+    "guigui": "^2.0.0",
     "mouse-event-offset": "^3.0.2",
     "mouse-wheel": "^1.1.0",
     "raf-loop": "^1.1.3",
