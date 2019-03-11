@@ -2024,31 +2024,14 @@ const GLTFLoader = (function() {
 
           geometry.setIndex(indices)
 
-          cache.push({ geometry: geometry, baseGeometry: baseGeometry, primitives: originalPrimitives })
+          cache.push({
+            geometry: geometry,
+            baseGeometry: baseGeometry,
+            primitives: originalPrimitives
+          })
 
           return [geometry]
         })
-      } else if (geometries.length > 1 && BufferGeometryUtils !== undefined) {
-        // Tries to merge geometries with BufferGeometryUtils if possible
-
-        for (var i = 1, il = primitives.length; i < il; i++) {
-          // can't merge if draw mode is different
-          if (primitives[0].mode !== primitives[i].mode) return geometries
-        }
-
-        // See if we've already created this combined geometry
-        var cache = parser.multiplePrimitivesCache
-        var cached = getCachedCombinedGeometry(cache, geometries)
-
-        if (cached) {
-          if (cached.geometry !== null) return [cached.geometry]
-        } else {
-          var geometry = BufferGeometryUtils.mergeBufferGeometries(geometries, true)
-
-          cache.push({ geometry: geometry, baseGeometries: geometries })
-
-          if (geometry !== null) return [geometry]
-        }
       }
 
       return geometries
@@ -2214,7 +2197,7 @@ const GLTFLoader = (function() {
             // workarounds for mesh and geometry
 
             if (material.aoMap && geometry.attributes.uv2 === undefined && geometry.attributes.uv !== undefined) {
-              console.log('GLTFLoader: Duplicating UVs to support aoMap.')
+              // console.log('GLTFLoader: Duplicating UVs to support aoMap.')
               geometry.addAttribute('uv2', new BufferAttribute(geometry.attributes.uv.array, 2))
             }
 

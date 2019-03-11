@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = env => {
@@ -14,6 +15,9 @@ module.exports = env => {
       new webpack.DefinePlugin({
         DEVELOPMENT: !isProd
       }),
+      new CopyWebpackPlugin([
+        {from: 'src/assets', to: 'assets'}
+      ]),
       new HtmlWebpackPlugin({
         title: isProd ? 'Production' : 'Development',
         meta: {

@@ -6,10 +6,12 @@ import {
   EffectPass
 } from 'postprocessing'
 import { WebGLRenderer, Scene, PerspectiveCamera, PointLight } from 'three'
-import Torus from './objects/Torus'
+import Helmet from './objects/Helmet'
 import OrbitControls from './controls/OrbitControls'
 import { preloader } from './loader'
+import { TextureResolver } from './loader/resolvers/TextureResolver'
 import { ImageResolver } from './loader/resolvers/ImageResolver'
+import { GLTFResolver } from './loader/resolvers/GLTFResolver'
 
 /* Custom settings */
 const SETTINGS = {
@@ -24,6 +26,7 @@ const renderer = new WebGLRenderer()
 container.style.overflow = 'hidden'
 container.style.margin = 0
 container.appendChild(renderer.domElement)
+renderer.setClearColor(0x3d3b33)
 
 /* Main scene and camera */
 const scene = new Scene()
@@ -36,28 +39,30 @@ controls.start()
 
 /* Lights */
 const frontLight = new PointLight(0xFFFFFF, 1)
-const backLight = new PointLight(0xFFFFFF, 0.5)
+const backLight = new PointLight(0xFFFFFF, 1)
 scene.add(frontLight)
 scene.add(backLight)
-frontLight.position.x = 20
-backLight.position.x = -20
-
-/* Actual content of the scene */
-const torus = new Torus()
-scene.add(torus)
+frontLight.position.set(20, 20, 20)
+backLight.position.set(-20, -20, 20)
 
 /* Various event listeners */
 window.addEventListener('resize', onResize)
 
 /* Preloader */
-preloader.init(new ImageResolver())
+preloader.init(new ImageResolver(), new GLTFResolver(), new TextureResolver())
 preloader.load([
   { id: 'searchImage', type: 'image', url: SMAAEffect.searchImageDataURL },
-  { id: 'areaImage', type: 'image', url: SMAAEffect.areaImageDataURL }
+  { id: 'areaImage', type: 'image', url: SMAAEffect.areaImageDataURL },
+  { id: 'helmet', type: 'gltf', url: 'assets/models/DamagedHelmet.glb' },
+  { id: 'env', type: 'texture', url: 'assets/textures/pisa.jpg' }
 ]).then(() => {
   initPostProcessing()
   onResize()
   animate()
+
+  /* Actual content of the scene */
+  const helmet = new Helmet()
+  scene.add(helmet)
 })
 
 /* some stuff with gui */
@@ -116,6 +121,7 @@ function render () {
   if (SETTINGS.useComposer) {
     composer.render()
   } else {
+    renderer.clear()
     renderer.render(scene, camera)
   }
 
