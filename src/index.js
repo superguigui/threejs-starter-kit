@@ -1,82 +1,131 @@
+import {
+  EffectComposer,
+  BloomEffect,
+  SMAAEffect,
+  RenderPass,
+  EffectPass
+} from 'postprocessing'
 import { WebGLRenderer, Scene, PerspectiveCamera, PointLight } from 'three'
-import loop from 'raf-loop'
-import WAGNER from '@superguigui/wagner'
-import BloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass'
-import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
-import resize from 'brindille-resize'
-import Torus from './objects/Torus'
+import Helmet from './objects/Helmet'
 import OrbitControls from './controls/OrbitControls'
-import { gui } from './utils/debug'
+import { preloader } from './loader'
+import { TextureResolver } from './loader/resolvers/TextureResolver'
+import { ImageResolver } from './loader/resolvers/ImageResolver'
+import { GLTFResolver } from './loader/resolvers/GLTFResolver'
 
 /* Custom settings */
 const SETTINGS = {
-  useComposer: false
+  useComposer: true
 }
+let composer
+let stats
 
 /* Init renderer and canvas */
 const container = document.body
-const renderer = new WebGLRenderer({antialias: true})
-renderer.setClearColor(0x323232)
+const renderer = new WebGLRenderer()
 container.style.overflow = 'hidden'
 container.style.margin = 0
 container.appendChild(renderer.domElement)
-
-/* Composer for special effects */
-const composer = new WAGNER.Composer(renderer)
-const bloomPass = new BloomPass()
-const fxaaPass = new FXAAPass()
+renderer.setClearColor(0x3d3b33)
 
 /* Main scene and camera */
 const scene = new Scene()
-const camera = new PerspectiveCamera(50, resize.width / resize.height, 0.1, 1000)
-const controls = new OrbitControls(camera, {element: renderer.domElement, parent: renderer.domElement, distance: 10, phi: Math.PI * 0.5})
+const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000)
+const controls = new OrbitControls(camera)
+camera.position.z = 10
+controls.enableDamping = true
+controls.dampingFactor = 0.15
+controls.start()
 
 /* Lights */
 const frontLight = new PointLight(0xFFFFFF, 1)
-const backLight = new PointLight(0xFFFFFF, 0.5)
+const backLight = new PointLight(0xFFFFFF, 1)
 scene.add(frontLight)
 scene.add(backLight)
-frontLight.position.x = 20
-backLight.position.x = -20
-
-/* Actual content of the scene */
-const torus = new Torus()
-scene.add(torus)
+frontLight.position.set(20, 20, 20)
+backLight.position.set(-20, -20, 20)
 
 /* Various event listeners */
-resize.addListener(onResize)
+window.addEventListener('resize', onResize)
 
-/* create and launch main loop */
-const engine = loop(render)
-engine.start()
+/* Preloader */
+preloader.init(new ImageResolver(), new GLTFResolver(), new TextureResolver())
+preloader.load([
+  { id: 'searchImage', type: 'image', url: SMAAEffect.searchImageDataURL },
+  { id: 'areaImage', type: 'image', url: SMAAEffect.areaImageDataURL },
+  { id: 'helmet', type: 'gltf', url: 'assets/models/DamagedHelmet.glb' },
+  { id: 'env', type: 'texture', url: 'assets/textures/pisa.jpg' }
+]).then(() => {
+  initPostProcessing()
+  onResize()
+  animate()
+
+  /* Actual content of the scene */
+  const helmet = new Helmet()
+  scene.add(helmet)
+})
 
 /* some stuff with gui */
-gui.add(SETTINGS, 'useComposer')
+if (DEVELOPMENT) {
+  const guigui = require('guigui')
+  guigui.add(SETTINGS, 'useComposer')
+
+  const Stats = require('stats.js')
+  stats = new Stats()
+  stats.showPanel(0)
+  container.appendChild(stats.domElement)
+  stats.domElement.style.position = 'absolute'
+  stats.domElement.style.top = 0
+  stats.domElement.style.left = 0
+}
 
 /* -------------------------------------------------------------------------------- */
+function initPostProcessing () {
+  composer = new EffectComposer(renderer)
+  const bloomEffect = new BloomEffect()
+  const smaaEffect = new SMAAEffect(preloader.get('searchImage'), preloader.get('areaImage'))
+  const effectPass = new EffectPass(camera, smaaEffect, bloomEffect)
+  const renderPass = new RenderPass(scene, camera)
+  composer.addPass(renderPass)
+  composer.addPass(effectPass)
+  effectPass.renderToScreen = true
+}
 
 /**
   Resize canvas
 */
 function onResize () {
-  camera.aspect = resize.width / resize.height
+  camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
-  renderer.setSize(resize.width, resize.height)
-  composer.setSize(resize.width, resize.height)
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  composer.setSize(window.innerWidth, window.innerHeight)
+}
+
+/**
+  RAF
+*/
+function animate() {
+  window.requestAnimationFrame(animate)
+  render()
 }
 
 /**
   Render loop
 */
-function render (dt) {
+function render () {
+  if (DEVELOPMENT) {
+    stats.begin()
+  }
+
   controls.update()
   if (SETTINGS.useComposer) {
-    composer.reset()
-    composer.render(scene, camera)
-    composer.pass(bloomPass)
-    composer.pass(fxaaPass)
-    composer.toScreen()
-  }else {
+    composer.render()
+  } else {
+    renderer.clear()
     renderer.render(scene, camera)
+  }
+
+  if (DEVELOPMENT) {
+    stats.end()
   }
 }
