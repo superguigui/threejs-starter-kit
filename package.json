@@ -1,32 +1,31 @@
 {
   "name": "threejs-starter-kit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "My workflow for threejs demos",
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack --env.prod",
-    "now-build": "webpack --env.prod"
+    "build": "webpack --env.prod"
   },
   "repository": "superguigui/threejs-starter-kit",
   "author": "Guillaume Gouessan <guillaume.gouessan+gh@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
-    "babel-loader": "^8.0.4",
-    "copy-webpack-plugin": "^5.1.1",
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^6.1.1",
     "glslify-loader": "^2.0.0",
     "guigui": "^2.0.2",
-    "html-webpack-plugin": "^4.3.0",
+    "html-webpack-plugin": "^4.5.0",
     "raw-loader": "^4.0.1",
     "stats.js": "^0.17.0",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "postprocessing": "*",
-    "three": "*"
+    "postprocessing": "^6.17.3",
+    "three": "^0.120.1"
   }
 }

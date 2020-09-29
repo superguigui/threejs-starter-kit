@@ -9,19 +9,20 @@ module.exports = env => {
     mode: isProd ? 'production' : 'development',
     performance: { hints: false },
     entry: {
-      build: './src/index.js',
+      build: './src/index.js'
     },
     plugins: [
       new webpack.DefinePlugin({
         DEVELOPMENT: !isProd
       }),
-      new CopyWebpackPlugin([
-        {from: 'src/assets', to: 'assets'}
-      ]),
+      new CopyWebpackPlugin({
+        patterns: [{ from: 'src/assets', to: 'assets' }]
+      }),
       new HtmlWebpackPlugin({
         title: isProd ? 'Production' : 'Development',
         meta: {
-          viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no'
+          viewport:
+            'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no'
         }
       })
     ],
@@ -48,7 +49,7 @@ module.exports = env => {
       ]
     }
   }
-  
+
   if (!isProd) {
     config.devtool = '#source-map'
   }
