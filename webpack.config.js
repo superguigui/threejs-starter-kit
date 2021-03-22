@@ -38,11 +38,13 @@ module.exports = env => {
         },
         {
           test: /\.js$/,
+          exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
               compact: false,
-              presets: [['@babel/preset-env']]
+              presets: [['@babel/preset-env']],
+              plugins: [['@babel/transform-runtime']]
             }
           }
         }
